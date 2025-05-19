@@ -1,0 +1,19 @@
+{
+    "name": "Qubicon",
+    "version": "5.5.1",
+    "bot_lockdown": false,
+    "use_reasoning": true,
+    "do_filter_response": false,
+    "temp": 0.4,
+    "top_p": 0.95,
+    "admins": [
+        769979361297694720,
+        991791436662046800,
+        776579657600073740
+    ],
+    "main_model": "deepseek-r1-distill-llama-70b",
+    "secondary_model": "llama-3.3-70b-versatile",
+    "tts_voice": "en-us+m1",
+    "tts_speed": "125",
+    "tts_pitch": "50"
+}
