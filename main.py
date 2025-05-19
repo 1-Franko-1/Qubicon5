@@ -1490,6 +1490,11 @@ async def read_chnl(interaction: discord.Interaction, id: str):
     async for message in channel.history(limit=100):
         await interaction.followup.send(f"{message.author.display_name}: {message.content}")
 
+        if message.author.id == bot.user.id:
+            msg_memory.append({"role": "assistant", "content": message.content})
+        else:
+            msg_memory.append({"role": "user", "content": message.content})
+
 @bot.tree.command(name="create_invite", description="Create an non-exipre invite")
 @app_commands.allowed_contexts(guilds=True, dms=False, private_channels=True)
 async def create_invite(interaction: discord.Interaction):

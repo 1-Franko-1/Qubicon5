@@ -133,7 +133,6 @@ bot = commands.Bot(command_prefix=COMMAND_PREFIX, intents=intents)
 
 # --- Groq API Initialization ---
 groq_client = AsyncGroq(api_key=GROQ_KEY, max_retries=2, timeout=10)
-web_client = TavilyClient(tavily_key)
 
 recognizer = sr.Recognizer()
 
