@@ -1487,13 +1487,24 @@ async def read_chnl(interaction: discord.Interaction, id: str):
     channel = bot.get_channel(int(id))
     await interaction.response.send_message(f"Reading {channel.name}", ephemeral=True)
 
-    async for message in channel.history(limit=100):
-        await interaction.followup.send(f"{message.author.display_name}: {message.content}")
+    try:
+        async for message in channel.history(limit=100):
+            await interaction.followup.send(f"{message.author.display_name}: {message.content}")
 
-        if message.author.id == bot.user.id:
-            msg_memory.append({"role": "assistant", "content": message.content})
-        else:
-            msg_memory.append({"role": "user", "content": message.content})
+            if message.author.id == bot.user.id:
+                msg_memory.append({"role": "assistant", "content": message.content})
+            else:
+                msg_memory.append({"role": "user", "content": message.content})
+        
+        save_json(msg_memory, MSG_MEMORY_PATH)
+    except KeyboardInterrupt:
+        save_json(msg_memory, MSG_MEMORY_PATH)
+        await interaction.followup.send("Memory saved!", ephemeral=True)
+        raise
+    except Exception as e:
+        await interaction.followup.send(f"Error: {str(e)}", ephemeral=True)
+        logger.error(f"Error reading channel {channel.name}: {str(e)}")
+
 
 @bot.tree.command(name="create_invite", description="Create an non-exipre invite")
 @app_commands.allowed_contexts(guilds=True, dms=False, private_channels=True)
