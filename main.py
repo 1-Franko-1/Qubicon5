@@ -920,7 +920,7 @@ async def on_message(message):
         http_links = re.findall(r'(https?://[^\s]+)', message_content)
         for link in http_links:
             # scrape the link
-            result = AdvCrawler(link)
+            result = AdvCrawler(link).crawl()
 
             if result:
                 links.append(result)
@@ -1494,7 +1494,7 @@ async def read_chnl(interaction: discord.Interaction, id: str):
             if message.author.id == bot.user.id:
                 msg_memory.append({"role": "assistant", "content": message.content})
             else:
-                msg_memory.append({"role": "user", "content": message.content})
+                msg_memory.append({"role": "user", "content": f"{message.author.display_name}: {message.content}"})
         
         save_json(msg_memory, MSG_MEMORY_PATH)
     except KeyboardInterrupt:
@@ -1624,5 +1624,7 @@ async def shutup(interaction: discord.Interaction):
         vc.stop()
 
     await interaction.response.send_message("Shutting up!", ephemeral=True)
+
+# command to 
 
 bot.run(QB_TOKEN)
